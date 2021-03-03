@@ -1,0 +1,977 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create OpenAPI Mock to existing VPC 1`] = `
+Object {
+  "Outputs": Object {
+    "MockFargateServiceLoadBalancerDNS4AF7723A": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "MockFargateServiceLB7C8AB3BF",
+          "DNSName",
+        ],
+      },
+    },
+    "MockFargateServiceServiceURLFF10EC07": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Ref": "MockFargateServiceDNS3D6247D2",
+            },
+          ],
+        ],
+      },
+    },
+    "OutputDocumentAddress": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "http://",
+            Object {
+              "Ref": "DocumentAliasRecord32C14AF0",
+            },
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2ArtifactHash652C125C": Object {
+      "Description": "Artifact hash for asset \\"19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2\\"",
+      "Type": "String",
+    },
+    "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3BucketFCCD3A76": Object {
+      "Description": "S3 bucket for asset \\"19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2\\"",
+      "Type": "String",
+    },
+    "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3VersionKey07AF06B6": Object {
+      "Description": "S3 key for asset version \\"19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "DocumentAliasRecord32C14AF0": Object {
+      "Properties": Object {
+        "AliasTarget": Object {
+          "DNSName": "s3-website-ap-northeast-1.amazonaws.com",
+          "HostedZoneId": "Z2M4EHUR26P7ZW",
+        },
+        "HostedZoneId": "dummy",
+        "Name": "dummy.dummy.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "DocumentBucketAE41E5A9": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "dummy.dummy",
+        "WebsiteConfiguration": Object {
+          "IndexDocument": "index.html",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DocumentBucketPolicyBF1D786A": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "DocumentBucketAE41E5A9",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "DocumentBucketAE41E5A9",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "EcsDefaultClusterMnL3mNNYN926A5246": Object {
+      "Type": "AWS::ECS::Cluster",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpc7788A521": Object {
+      "Properties": Object {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1DefaultRouteA5ADF694": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1NATGateway5E3732C1",
+        },
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTable4F1D2E36",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTable4F1D2E36": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTableAssociation34B92275": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTable4F1D2E36",
+        },
+        "SubnetId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1Subnet075EFF4C",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1Subnet075EFF4C": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.128.0/18",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2DefaultRoute20CE2D89": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2NATGateway4C855E00",
+        },
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableDCE46591",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableAssociation111C622F": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableDCE46591",
+        },
+        "SubnetId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2SubnetE4CEDF73",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableDCE46591": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2SubnetE4CEDF73": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.192.0/18",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1DefaultRouteFF4E2178": Object {
+      "DependsOn": Array [
+        "EcsDefaultClusterMnL3mNNYNVpcVPCGW2447264E",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F",
+        },
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableA1FD6ACC",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1EIP8704DB2F": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1NATGateway5E3732C1": Object {
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1EIP8704DB2F",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableA1FD6ACC": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableAssociation8B583A17": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableA1FD6ACC",
+        },
+        "SubnetId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.0.0/18",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2DefaultRouteB1375520": Object {
+      "DependsOn": Array [
+        "EcsDefaultClusterMnL3mNNYNVpcVPCGW2447264E",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F",
+        },
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTable263DEAA5",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2EIPF0764873": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2NATGateway4C855E00": Object {
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2EIPF0764873",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTable263DEAA5": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTableAssociation43E5803C": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTable263DEAA5",
+        },
+        "SubnetId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A": Object {
+      "Properties": Object {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.64.0/18",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "PrismStack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpcVPCGW2447264E": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F",
+        },
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "MockCertificateCertificateRequestorFunctionC4BB6C80": Object {
+      "DependsOn": Array [
+        "MockCertificateCertificateRequestorFunctionServiceRoleDefaultPolicy33454065",
+        "MockCertificateCertificateRequestorFunctionServiceRoleF912D3F2",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3BucketFCCD3A76",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3VersionKey07AF06B6",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3VersionKey07AF06B6",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Handler": "index.certificateRequestHandler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "MockCertificateCertificateRequestorFunctionServiceRoleF912D3F2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs10.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "MockCertificateCertificateRequestorFunctionServiceRoleDefaultPolicy33454065": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "acm:RequestCertificate",
+                "acm:DescribeCertificate",
+                "acm:DeleteCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "route53:GetChange",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "route53:changeResourceRecordSets",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":route53:::hostedzone/dummy",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "MockCertificateCertificateRequestorFunctionServiceRoleDefaultPolicy33454065",
+        "Roles": Array [
+          Object {
+            "Ref": "MockCertificateCertificateRequestorFunctionServiceRoleF912D3F2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MockCertificateCertificateRequestorFunctionServiceRoleF912D3F2": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MockCertificateCertificateRequestorResource2F109D72": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DomainName": "dummy.dummy",
+        "HostedZoneId": "dummy",
+        "Region": "ap-northeast-1",
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "MockCertificateCertificateRequestorFunctionC4BB6C80",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "MockFargateService99000DBA": Object {
+      "DependsOn": Array [
+        "MockFargateServiceLBPublicListenerECSGroup0768C1F4",
+        "MockFargateServiceLBPublicListener1321CCE4",
+      ],
+      "Properties": Object {
+        "Cluster": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYN926A5246",
+        },
+        "DeploymentConfiguration": Object {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50,
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": Array [
+          Object {
+            "ContainerName": "MockContainerDefinition",
+            "ContainerPort": 80,
+            "TargetGroupArn": Object {
+              "Ref": "MockFargateServiceLBPublicListenerECSGroup0768C1F4",
+            },
+          },
+        ],
+        "NetworkConfiguration": Object {
+          "AwsvpcConfiguration": Object {
+            "AssignPublicIp": "ENABLED",
+            "SecurityGroups": Array [
+              Object {
+                "Fn::GetAtt": Array [
+                  "MockFargateServiceSecurityGroup31667197",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": Array [
+              Object {
+                "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99",
+              },
+              Object {
+                "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A",
+              },
+            ],
+          },
+        },
+        "TaskDefinition": Object {
+          "Ref": "MockTaskDefinition635A0C91",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "MockFargateServiceDNS3D6247D2": Object {
+      "Properties": Object {
+        "AliasTarget": Object {
+          "DNSName": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "dualstack.",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "MockFargateServiceLB7C8AB3BF",
+                    "DNSName",
+                  ],
+                },
+              ],
+            ],
+          },
+          "HostedZoneId": Object {
+            "Fn::GetAtt": Array [
+              "MockFargateServiceLB7C8AB3BF",
+              "CanonicalHostedZoneID",
+            ],
+          },
+        },
+        "HostedZoneId": "dummy",
+        "Name": "dummy.dummy.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "MockFargateServiceLB7C8AB3BF": Object {
+      "DependsOn": Array [
+        "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1DefaultRouteFF4E2178",
+        "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2DefaultRouteB1375520",
+      ],
+      "Properties": Object {
+        "LoadBalancerAttributes": Array [
+          Object {
+            "Key": "deletion_protection.enabled",
+            "Value": "false",
+          },
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "MockFargateServiceLBSecurityGroup9E4AA5FD",
+              "GroupId",
+            ],
+          },
+        ],
+        "Subnets": Array [
+          Object {
+            "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99",
+          },
+          Object {
+            "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A",
+          },
+        ],
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "MockFargateServiceLBPublicListener1321CCE4": Object {
+      "Properties": Object {
+        "Certificates": Array [
+          Object {
+            "CertificateArn": Object {
+              "Fn::GetAtt": Array [
+                "MockCertificateCertificateRequestorResource2F109D72",
+                "Arn",
+              ],
+            },
+          },
+        ],
+        "DefaultActions": Array [
+          Object {
+            "TargetGroupArn": Object {
+              "Ref": "MockFargateServiceLBPublicListenerECSGroup0768C1F4",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": Object {
+          "Ref": "MockFargateServiceLB7C8AB3BF",
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "MockFargateServiceLBPublicListenerECSGroup0768C1F4": Object {
+      "Properties": Object {
+        "Matcher": Object {
+          "HttpCode": "200-499",
+        },
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "MockFargateServiceLBSecurityGroup9E4AA5FD": Object {
+      "Properties": Object {
+        "GroupDescription": "Automatically created Security Group for ELB PrismStackMockFargateServiceLB2549B0AA",
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "MockFargateServiceLBSecurityGrouptoPrismStackMockFargateServiceSecurityGroup29F7DB5180CC3F100A": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "MockFargateServiceSecurityGroup31667197",
+            "GroupId",
+          ],
+        },
+        "FromPort": 80,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "MockFargateServiceLBSecurityGroup9E4AA5FD",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "MockFargateServiceSecurityGroup31667197": Object {
+      "Properties": Object {
+        "GroupDescription": "PrismStack/MockFargateService/Service/SecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "MockFargateServiceSecurityGroupfromPrismStackMockFargateServiceLBSecurityGroup99E84F6480A9B8ABA6": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "MockFargateServiceSecurityGroup31667197",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "MockFargateServiceLBSecurityGroup9E4AA5FD",
+            "GroupId",
+          ],
+        },
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "MockTaskDefinition635A0C91": Object {
+      "Properties": Object {
+        "ContainerDefinitions": Array [
+          Object {
+            "Essential": true,
+            "Image": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "1234567890.dkr.ecr.ap-northeast-1.",
+                  Object {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/aws-cdk/assets:4887939dfe65985d34d9ff30e7442c05a2a37118d075963321fcc8658022e8d4",
+                ],
+              ],
+            },
+            "Name": "MockContainerDefinition",
+            "PortMappings": Array [
+              Object {
+                "ContainerPort": 80,
+                "Protocol": "tcp",
+              },
+            ],
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "MockTaskDefinitionExecutionRoleCF9F9FD8",
+            "Arn",
+          ],
+        },
+        "Family": "MockServer",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": Array [
+          "FARGATE",
+        ],
+        "TaskRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "MockTaskDefinitionTaskRole7998703E",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "MockTaskDefinitionExecutionRoleCF9F9FD8": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MockTaskDefinitionExecutionRoleDefaultPolicyD486D194": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:ap-northeast-1:1234567890:repository/aws-cdk/assets",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "MockTaskDefinitionExecutionRoleDefaultPolicyD486D194",
+        "Roles": Array [
+          Object {
+            "Ref": "MockTaskDefinitionExecutionRoleCF9F9FD8",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MockTaskDefinitionTaskRole7998703E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
