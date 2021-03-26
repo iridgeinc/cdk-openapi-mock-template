@@ -35,3 +35,6 @@ npx cdk deploy -c env=production
 # Run snapshot tests
 npm test
 ```
+
+# License
+This software is released under the MIT License, see LICENSE.
